@@ -290,6 +290,8 @@ export default function App() {
       return b.matchScore - a.matchScore;
     });
   }, [searchQuery, selectedGenre, selectedPlatform, sortBy, tmdbConfigured, liveMovies]);
+  const collectionMovies = tmdbConfigured ? liveMovies : filteredMovies;
+  const collectionCount = tmdbConfigured ? catalogTotal : collectionMovies.length;
 
   // Specialized Curated Shelves
   const recommendedShelf = useMemo(() => {
@@ -550,9 +552,10 @@ export default function App() {
                 />
                 {recommendationMovies.length > 0 && <MovieShelf title="CINEVERSE AI · picked for your mood" subtitle={mood ? `Personalized for ${mood.replaceAll('-',' ')}` : 'Personalized from your selected film universe'} movies={recommendationMovies} onOpenDetails={handleOpenDetails} onPlayTrailer={handlePlayTrailer} watchlist={watchlist} onToggleWatchlist={toggleWatchlist} likedMovies={likedMovies} onToggleLike={toggleLike} watchProgress={watchProgress} />}
                 <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-                  <div className="mb-5 flex items-end justify-between"><div><p className="text-[10px] tracking-[.25em] text-rose-300">THE LIVE COLLECTION</p><h2 className="mt-1 text-2xl font-bold">Explore {region[0].toUpperCase()+region.slice(1)}</h2></div><span className="text-xs text-zinc-500">{catalogTotal.toLocaleString()} titles</span></div>
-                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">{liveMovies.map(movie=><button key={movie.id} onClick={()=>handleOpenDetails(movie)} className="group text-left"><div className="aspect-[2/3] overflow-hidden rounded-lg bg-zinc-900"><img className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" src={movie.posterUrl || movie.backdropUrl} alt={movie.title}/></div><div className="mt-2 truncate text-sm font-semibold text-zinc-100">{movie.title}</div><div className="text-xs text-zinc-500">✦ {movie.imdbRating.toFixed(1)} · {movie.year || '—'}</div></button>)}</div>
-                  {catalogPage < catalogPages && <button onClick={()=>void loadMoreCatalog()} className="mx-auto mt-8 block rounded-lg border border-zinc-700 px-6 py-3 text-xs text-zinc-200 hover:border-fuchsia-300">Load more movies · page {catalogPage+1} / {catalogPages}</button>}
+                  <div className="mb-5 flex items-end justify-between"><div><p className="text-[10px] tracking-[.25em] text-rose-300">{tmdbConfigured?'THE LIVE COLLECTION':'CINEVERSE PREVIEW PICKS'}</p><h2 className="mt-1 text-2xl font-bold">{tmdbConfigured?`Explore ${region[0].toUpperCase()+region.slice(1)}`:'Explore movies'}</h2></div><span className="text-xs text-zinc-500">{collectionCount.toLocaleString()} titles</span></div>
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">{collectionMovies.map(movie=><button key={movie.id} onClick={()=>handleOpenDetails(movie)} className="group text-left"><div className="aspect-[2/3] overflow-hidden rounded-lg bg-zinc-900"><img className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" src={movie.posterUrl || movie.backdropUrl} alt={movie.title}/></div><div className="mt-2 truncate text-sm font-semibold text-zinc-100">{movie.title}</div><div className="text-xs text-zinc-500">✦ {movie.imdbRating.toFixed(1)} · {movie.year || '—'}</div></button>)}</div>
+                  {tmdbConfigured && catalogPage < catalogPages && <button onClick={()=>void loadMoreCatalog()} className="mx-auto mt-8 block rounded-lg border border-zinc-700 px-6 py-3 text-xs text-zinc-200 hover:border-fuchsia-300">Load more movies · page {catalogPage+1} / {catalogPages}</button>}
+                  {!tmdbConfigured && <p className="mt-6 text-center text-[11px] text-zinc-500">Preview data only. Add your TMDB token to load real posters and 1,000+ titles per region.</p>}
                 </section>
               </div>
             )}
