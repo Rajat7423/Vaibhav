@@ -1,0 +1,6 @@
+{
+  "name": "CineVerse - AI Movie Recommendation & Streaming Guide",
+  "description": "Next-generation movie recommendation platform inspired by Netflix and Amazon Prime Video with AI-powered taste profiling, cinematic trailers, mood matrix, and streaming availability.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
