@@ -2,16 +2,12 @@ services:
   - type: web
     name: cineverse-ai
     runtime: docker
-    plan: starter
+    plan: free
     healthCheckPath: /api/health
-    disk:
-      name: cineverse-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: DATABASE_PATH
-        value: /data/cineverse.sqlite
+        value: /tmp/cineverse.sqlite
       - key: TMDB_READ_ACCESS_TOKEN
         sync: false
