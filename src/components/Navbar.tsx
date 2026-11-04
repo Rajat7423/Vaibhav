@@ -89,6 +89,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Zone 3: 1 Primary Action (with search input accessory) */}
         <div className="flex items-center gap-3 shrink-0">
+          <button type="button" aria-label="Search movies" onClick={() => { const query = window.prompt('Search movies'); if (query !== null) setSearchQuery(query); }} className="lg:hidden rounded-full border border-zinc-700 p-2 text-zinc-300 hover:border-rose-400">
+            <Search className="h-4 w-4" />
+          </button>
           <div className="relative hidden lg:block w-48 xl:w-56">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
             <input
